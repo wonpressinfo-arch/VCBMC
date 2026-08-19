@@ -1,0 +1,40 @@
+name: Hide decorations simple
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/hide-decorations-simple.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  hide-decorations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Add final CSS override
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '/* REMOVE DECORATIONS FINAL */'
+          rule = marker + '\n.spark,.spark-top,.spark-bottom,.ornament,.ornament.small,.fleur,.title-rule span,.title-rule span::before,.title-rule span::after{display:none!important;visibility:hidden!important;opacity:0!important;width:0!important;height:0!important;margin:0!important;padding:0!important;box-shadow:none!important;content:none!important;}\n'
+          if marker not in s:
+              s = s.replace('</style>', rule + '</style>', 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Hide all decorative motifs"
+          git push
