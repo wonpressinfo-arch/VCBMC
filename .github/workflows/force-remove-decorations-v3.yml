@@ -1,0 +1,79 @@
+name: Force remove decorative motifs v3
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/force-remove-decorations-v3.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Force remove decorations
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Physically remove decorative elements from HTML.
+          patterns = [
+              r'\s*<div[^>]*class="[^"]*\bspark\b[^"]*"[^>]*>\s*</div>',
+              r'\s*<div[^>]*class="[^"]*\bfleur\b[^"]*"[^>]*>.*?</div>',
+              r'\s*<div[^>]*class="[^"]*\bornament\b[^"]*"[^>]*>.*?</div>',
+          ]
+          for pat in patterns:
+              s = re.sub(pat, '', s, flags=re.S)
+
+          # Remove decorative star content inside title rules.
+          s = re.sub(r'(<div[^>]*class="[^"]*\btitle-rule\b[^"]*"[^>]*>)\s*<span[^>]*>\s*</span>\s*(</div>)', r'\1\2', s, flags=re.S)
+
+          # Strong CSS fallback, also collapsing all leftover spacing/size.
+          css = r'''
+/* FORCE REMOVE ALL DECORATIVE MOTIFS v3 */
+.spark,
+.spark-top,
+.spark-bottom,
+.fleur,
+.ornament,
+.ornament.small,
+.title-rule > span,
+.title-rule > span::before,
+.title-rule > span::after {
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  width:0 !important;
+  height:0 !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  content:none !important;
+}
+'''
+          if '/* FORCE REMOVE ALL DECORATIVE MOTIFS v3 */' not in s:
+              s = s.replace('</style>', css + '\n</style>', 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then
+            echo "No changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Force remove all decorative motifs"
+          git push
