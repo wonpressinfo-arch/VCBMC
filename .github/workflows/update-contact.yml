@@ -1,0 +1,39 @@
+name: Update contact title
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/update-contact.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-contact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update text
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('<p class="contact-name">원동혁</p>', '<p class="contact-name">원동혁 대표</p>')
+          s = s.replace('창립준비위원장 원동혁 (010-6300-5961)', '창립준비위원장 원동혁 대표 (010-6300-5961)')
+          s = s.replace('aria-label="원동혁 창립준비위원장에게 전화하기"', 'aria-label="원동혁 대표 창립준비위원장에게 전화하기"')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Update Won Donghyeok title to 대표"
+          git push
