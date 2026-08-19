@@ -167,40 +167,49 @@ a{color:inherit;text-decoration:none}
 .location-copy{width:100%;text-align:left;margin:clamp(56px,8vh,80px) 0 26px}
 .location-copy h2{font-size:clamp(30px,7vw,48px);margin-bottom:8px}
 .location-copy p{margin:0;font-size:clamp(18px,4vw,26px)}
-.map-card{
+.hotel-photo-card{
   position:relative;
   width:100%;
   aspect-ratio:1.55/1;
   border-radius:18px;
   overflow:hidden;
-  background:#e8eee7;
+  background:#07182e;
+  border:1px solid rgba(239,207,131,.45);
   box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
-.map-card::before{
-  content:"";position:absolute;inset:0;
-  background:
-    linear-gradient(32deg,transparent 0 20%,rgba(255,255,255,.85) 20% 22%,transparent 22% 42%,rgba(255,255,255,.8) 42% 44%,transparent 44%),
-    linear-gradient(100deg,transparent 0 32%,rgba(255,255,255,.75) 32% 34%,transparent 34% 69%,rgba(255,255,255,.8) 69% 71%,transparent 71%);
+.hotel-photo-card img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+  transition:transform .45s ease;
 }
-.river{position:absolute;width:120%;height:78px;left:-10%;top:34%;background:#bfd7e4;border:7px solid rgba(217,167,155,.5);transform:rotate(13deg);border-radius:50%}
-.road{position:absolute;background:rgba(255,255,255,.82);height:6px;border-radius:10px;transform-origin:left center}
-.r1{width:70%;left:5%;top:22%;transform:rotate(22deg)}
-.r2{width:75%;left:10%;top:72%;transform:rotate(-16deg)}
-.r3{width:55%;right:0;top:17%;transform:rotate(88deg)}
-.park{position:absolute;border-radius:46% 54% 60% 40%;background:#cfe1d1;opacity:.85}
-.p1{width:110px;height:85px;right:24%;top:47%}
-.p2{width:85px;height:70px;left:10%;bottom:8%}
-.map-pin{position:absolute;left:50%;top:51%;width:50px;height:62px;transform:translate(-50%,-50%) rotate(45deg);background:#0d4c9b;border-radius:50% 50% 50% 0;box-shadow:0 8px 18px rgba(13,76,155,.22)}
-.map-pin span{position:absolute;width:18px;height:18px;border-radius:50%;background:#d9ead8;left:16px;top:15px}
-.parking{font-size:clamp(16px,4vw,22px);margin:28px 0 30px}
-.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
+.hotel-photo-card:hover img{transform:scale(1.025)}
+.photo-caption{
+  position:absolute;left:0;right:0;bottom:0;padding:34px 18px 15px;
+  background:linear-gradient(transparent,rgba(3,11,25,.88));
+  color:#fff2c6;font-size:15px;font-weight:800;text-align:left;
+}
+.parking-highlight{
+  width:100%;margin:28px 0 24px;padding:20px 18px;
+  border:2px solid var(--gold);border-radius:16px;
+  background:linear-gradient(120deg,rgba(216,183,110,.17),rgba(8,29,57,.92));
+  box-shadow:0 8px 24px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  color:#fff2c6;font-size:clamp(17px,4.2vw,23px);line-height:1.5;font-weight:900;
+}
+.parking-badge{
+  flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(145deg,#f0d58f,#bd8b37);color:#09234b;
+  font-family:Arial,sans-serif;font-size:25px;font-weight:900;
+}
+.quick-actions{display:flex;justify-content:center;width:100%}
 .quick-action{
-  appearance:none;border:0;background:transparent;color:var(--gold2);
-  display:flex;flex-direction:column;align-items:center;gap:10px;font-weight:800;font-size:clamp(14px,3.6vw,19px)
+  appearance:none;border:1px solid rgba(255,242,197,.3);
+  width:min(100%,340px);min-height:66px;padding:8px 24px;border-radius:999px;
+  background:linear-gradient(110deg,#e8ca7f,#b99045,#e8ca7f);color:#09234b;
+  display:flex;align-items:center;justify-content:center;gap:13px;
+  font-weight:900;font-size:clamp(17px,4vw,21px);box-shadow:0 8px 22px rgba(0,0,0,.25)
 }
-.icon-circle{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f0d58f,#bd8b37);box-shadow:0 5px 14px rgba(0,0,0,.2)}
-.icon-circle svg{width:36px;height:36px;fill:#09234b}
-.icon-circle.talk{border:4px solid var(--gold2);background:transparent;color:var(--gold2);font-size:12px}
+.icon-circle{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#09234b;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+.icon-circle svg{width:24px;height:24px;fill:var(--gold2)}
 
 .rsvp-content{text-align:left;align-items:stretch}
 .rsvp-content .fleur,.rsvp-content .section-kicker{text-align:center}
@@ -477,32 +486,23 @@ a{color:inherit;text-decoration:none}
           <p>인천 연수구 테크노파크로 193</p>
         </div>
 
-        <a class="map-card" href="https://map.kakao.com/link/search/송도%20센트럴파크%20호텔" target="_blank" rel="noopener" aria-label="카카오맵에서 송도 센트럴파크 호텔 위치 보기">
-          <div class="river"></div>
-          <div class="road r1"></div><div class="road r2"></div><div class="road r3"></div>
-          <div class="park p1"></div><div class="park p2"></div>
-          <div class="map-pin" aria-hidden="true"><span></span></div>
+        <a class="hotel-photo-card" href="https://www.centralparkhotel.co.kr/" target="_blank" rel="noopener" aria-label="송도 센트럴파크호텔 홈페이지에서 자세히 보기">
+          <img src="https://cdn.worldota.net/t/1024x768/content/21/d8/21d837138dc0c52033880ecb358c7cfd73351623.jpeg" alt="송도 센트럴파크호텔 외관" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+          <span class="photo-caption">THE CENTRAL PARK HOTEL SONGDO</span>
         </a>
 
-        <p class="parking">※ 건물 내 주차장 이용 시 무료 주차가 가능합니다.</p>
+        <div class="parking-highlight">
+          <span class="parking-badge" aria-hidden="true">P</span>
+          <strong>건물 내 주차장 이용 시<br />무료 주차가 가능합니다.</strong>
+        </div>
 
         <div class="quick-actions">
           <a class="quick-action" href="https://www.centralparkhotel.co.kr/" target="_blank" rel="noopener">
             <span class="icon-circle" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.2a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
             </span>
-            <span>홈페이지</span>
+            <span>호텔 홈페이지 바로가기</span>
           </a>
-          <a class="quick-action" href="tel:01063005961">
-            <span class="icon-circle" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
-            </span>
-            <span>문의전화</span>
-          </a>
-          <button class="quick-action" id="shareBtn" type="button">
-            <span class="icon-circle talk" aria-hidden="true">TALK</span>
-            <span>카톡공유</span>
-          </button>
         </div>
       </div>
       <div class="ribbon ribbon-bottom" aria-hidden="true"></div>
@@ -693,7 +693,6 @@ a{color:inherit;text-decoration:none}
   const modal = document.getElementById('registrationModal');
   const openers = document.querySelectorAll('[data-open-registration]');
   const closers = document.querySelectorAll('[data-close-registration]');
-  const shareBtn = document.getElementById('shareBtn');
   const form = document.getElementById('rsvpForm');
   const copyAccountBtn = document.getElementById('copyAccountBtn');
 
@@ -715,24 +714,6 @@ a{color:inherit;text-decoration:none}
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
-  });
-
-  shareBtn?.addEventListener('click', async () => {
-    const data = {
-      title: '인천 V 지회 창립대회',
-      text: '2026.09.01(화) 17:30 · 송도 센트럴파크 호텔',
-      url: location.href
-    };
-    try {
-      if (navigator.share) {
-        await navigator.share(data);
-      } else {
-        await navigator.clipboard.writeText(location.href);
-        alert('초대장 주소가 복사되었습니다. 카카오톡에 붙여넣어 공유해주세요.');
-      }
-    } catch (err) {
-      // 공유창 닫힘
-    }
   });
 
   copyAccountBtn?.addEventListener('click', async () => {
