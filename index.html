@@ -224,12 +224,81 @@ a{color:inherit;text-decoration:none}
 .cta-icon{font-size:26px}
 .cta-arrow{justify-self:end;display:grid;place-items:center;background:#09234b;color:var(--gold2);width:36px;height:36px;border-radius:50%;font-size:34px;line-height:1}
 
+.support-content,.contact-content{justify-content:flex-start;padding-top:clamp(90px,10vh,120px);padding-bottom:120px}
+.support-content h2,.contact-content h2{margin-top:10px}
+.support-card{
+  width:100%;
+  margin-top:clamp(48px,7vh,72px);
+  padding:clamp(38px,7vw,58px) clamp(20px,5vw,38px);
+  border:1px solid rgba(239,207,131,.5);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(17,48,87,.84),rgba(5,16,34,.94));
+  box-shadow:0 18px 42px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.04);
+}
+.account-bank{margin:0;color:var(--gold);font-size:clamp(20px,4.5vw,27px);font-weight:800}
+.account-number{
+  margin:30px 0 18px;
+  color:#fff3cc;
+  font-family:Georgia,"Noto Serif KR",serif;
+  font-size:clamp(28px,7.2vw,45px);
+  line-height:1.25;
+  letter-spacing:.025em;
+  word-break:keep-all;
+}
+.account-note{margin:0;color:rgba(255,244,205,.76);font-size:clamp(14px,3.5vw,18px)}
+.copy-account-btn{
+  margin:36px auto 0;
+  min-width:min(100%,280px);
+  min-height:64px;
+  padding:0 28px;
+  border:1px solid rgba(255,242,197,.28);
+  border-radius:999px;
+  background:linear-gradient(110deg,#e8ca7f,#b99045,#e8ca7f);
+  color:#09234b;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-size:clamp(17px,4vw,21px);
+  font-weight:900;
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+.copy-account-btn:active{transform:translateY(1px)}
+.copy-mark{position:relative;width:22px;height:24px;border:2px solid currentColor;border-radius:4px}
+.copy-mark::before{content:"";position:absolute;width:14px;height:16px;left:-7px;top:-7px;border:2px solid currentColor;border-radius:4px;background:#d7b768}
+
+.contact-list{width:100%;margin-top:clamp(42px,7vh,66px);display:grid;gap:18px}
+.contact-person{
+  width:100%;
+  padding:26px 22px;
+  border:1px solid rgba(239,207,131,.34);
+  border-radius:18px;
+  background:rgba(8,28,55,.76);
+  text-align:left;
+}
+.contact-role{margin:0 0 12px;color:var(--gold);font-size:clamp(16px,3.8vw,20px);font-weight:800}
+.contact-name{color:#fff2c6;font-size:clamp(21px,5vw,28px);font-weight:900}
+.contact-phone{
+  display:flex;align-items:center;gap:12px;
+  width:max-content;max-width:100%;
+  color:#fff;font-family:Georgia,"Noto Serif KR",serif;
+  font-size:clamp(23px,5.7vw,32px);letter-spacing:.035em
+}
+.contact-phone svg{width:26px;height:26px;flex:0 0 auto;fill:var(--gold)}
+.flower-note{
+  width:100%;margin-top:36px;padding:34px 18px 0;
+  border-top:1px solid rgba(239,207,131,.42);
+  text-align:center
+}
+.flower-note h3{margin:0 0 15px;color:var(--gold2);font-size:clamp(21px,5vw,29px)}
+.flower-note p{margin:0;color:rgba(255,244,205,.82);font-size:clamp(16px,3.8vw,20px);line-height:1.85}
+
 .sticky-nav{
   position:fixed;
   left:50%;bottom:max(12px,env(safe-area-inset-bottom));
   transform:translateX(-50%);
   z-index:20;
-  display:grid;grid-template-columns:repeat(4,auto);
+  display:grid;grid-template-columns:repeat(5,1fr);
   gap:4px;
   padding:7px;
   width:min(calc(100% - 24px),690px);
@@ -424,7 +493,7 @@ a{color:inherit;text-decoration:none}
             </span>
             <span>홈페이지</span>
           </a>
-          <a class="quick-action" href="tel:01080121738">
+          <a class="quick-action" href="tel:01063005961">
             <span class="icon-circle" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
             </span>
@@ -457,7 +526,7 @@ a{color:inherit;text-decoration:none}
         </div>
         <div class="info-block">
           <h3>행사문의</h3>
-          <p>김윤태 총무 (010-8012-1738)</p>
+          <p>창립준비위원장 원동혁 (010-6300-5961)</p>
         </div>
         <div class="info-block">
           <h3>안내사항</h3>
@@ -469,6 +538,66 @@ a{color:inherit;text-decoration:none}
           <span>참석신청하기</span>
           <span class="cta-arrow" aria-hidden="true">›</span>
         </button>
+      </div>
+      <div class="ribbon ribbon-bottom" aria-hidden="true"></div>
+      <div class="spark spark-bottom" aria-hidden="true"></div>
+    </section>
+
+    <section class="panel support" id="support" aria-labelledby="support-title">
+      <div class="ribbon ribbon-top" aria-hidden="true"></div>
+      <div class="spark spark-top" aria-hidden="true"></div>
+      <div class="section-content support-content">
+        <div class="fleur" aria-hidden="true">♛</div>
+        <div class="section-kicker">SUPPORT</div>
+        <h2 id="support-title">창립 후원 안내</h2>
+        <div class="title-rule"><span></span></div>
+
+        <div class="support-card">
+          <p class="account-bank">카카오뱅크</p>
+          <p class="account-number">3333-3047-20778</p>
+          <p class="account-note">창립대회 후원계좌</p>
+          <button class="copy-account-btn" id="copyAccountBtn" type="button" data-account="3333-3047-20778">
+            <span class="copy-mark" aria-hidden="true"></span>
+            <span class="copy-label">계좌번호 복사</span>
+          </button>
+        </div>
+      </div>
+      <div class="ribbon ribbon-bottom" aria-hidden="true"></div>
+      <div class="spark spark-bottom" aria-hidden="true"></div>
+    </section>
+
+    <section class="panel contact" id="contact" aria-labelledby="contact-title">
+      <div class="ribbon ribbon-top" aria-hidden="true"></div>
+      <div class="spark spark-top" aria-hidden="true"></div>
+      <div class="section-content contact-content">
+        <div class="fleur" aria-hidden="true">♛</div>
+        <div class="section-kicker">CONTACT</div>
+        <h2 id="contact-title">창립대회 문의</h2>
+        <div class="title-rule"><span></span></div>
+
+        <div class="contact-list">
+          <div class="contact-person">
+            <p class="contact-role">창립준비위원장</p>
+            <p class="contact-name">원동혁</p>
+            <a class="contact-phone" href="tel:01063005961" aria-label="원동혁 창립준비위원장에게 전화하기">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+              <span>010-6300-5961</span>
+            </a>
+          </div>
+          <div class="contact-person">
+            <p class="contact-role">창립지회장</p>
+            <p class="contact-name">최낙훈 대표</p>
+            <a class="contact-phone" href="tel:01074470328" aria-label="최낙훈 창립지회장에게 전화하기">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+              <span>010-7447-0328</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="flower-note">
+          <h3>화환은 정중히 사양합니다.</h3>
+          <p>귀한 걸음과 기도로 함께해 주시는 것이<br />가장 큰 축하이며 격려입니다.</p>
+        </div>
       </div>
       <div class="ribbon ribbon-bottom" aria-hidden="true"></div>
       <div class="spark spark-bottom" aria-hidden="true"></div>
@@ -497,6 +626,7 @@ a{color:inherit;text-decoration:none}
     <a href="#invitation">초대말씀</a>
     <a href="#program">프로그램</a>
     <a href="#location">장소</a>
+    <a href="#support">후원·문의</a>
     <button type="button" data-open-registration>참석신청</button>
   </nav>
 
@@ -565,6 +695,7 @@ a{color:inherit;text-decoration:none}
   const closers = document.querySelectorAll('[data-close-registration]');
   const shareBtn = document.getElementById('shareBtn');
   const form = document.getElementById('rsvpForm');
+  const copyAccountBtn = document.getElementById('copyAccountBtn');
 
   function openModal() {
     modal.classList.add('is-open');
@@ -601,6 +732,31 @@ a{color:inherit;text-decoration:none}
       }
     } catch (err) {
       // 공유창 닫힘
+    }
+  });
+
+  copyAccountBtn?.addEventListener('click', async () => {
+    const account = copyAccountBtn.dataset.account;
+    const label = copyAccountBtn.querySelector('.copy-label');
+    const original = label.textContent;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(account);
+      } else {
+        const temp = document.createElement('textarea');
+        temp.value = account;
+        temp.setAttribute('readonly', '');
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        temp.remove();
+      }
+      label.textContent = '복사 완료!';
+      setTimeout(() => { label.textContent = original; }, 1800);
+    } catch (error) {
+      alert(`계좌번호: ${account}`);
     }
   });
 
