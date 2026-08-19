@@ -1,0 +1,90 @@
+name: Remove decorative icons and align program
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/remove-decorations-align-program.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-page:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update styles
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Hide decorative light/star, infinity and crown motifs everywhere.
+          marker = '</style>'
+          css = r'''
+/* VCBMC clean-up: remove decorative motifs and align PROGRAM */
+.spark,
+.fleur,
+.ornament,
+.title-rule span::after {
+  display: none !important;
+}
+
+/* Remove spacing left behind by the hidden decorative motifs */
+.ornament,
+.ornament.small {
+  margin: 0 !important;
+}
+.fleur {
+  margin: 0 !important;
+}
+
+/* PROGRAM: equal visual width and matching alignment for 1부/2부/3부 and item names */
+.program-list {
+  width: min(560px, 100%) !important;
+}
+.program-row {
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  column-gap: clamp(14px, 4vw, 30px);
+  justify-items: center;
+  align-items: center;
+}
+.program-row > span:first-child,
+.program-row > strong {
+  width: 100%;
+  text-align: center;
+  font-size: inherit;
+  line-height: 1.2;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.program-row > span:nth-child(2) {
+  width: 1.2em;
+  text-align: center;
+}
+
+@media (max-width: 430px) {
+  .program-row {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  }
+}
+'''
+          if '/* VCBMC clean-up: remove decorative motifs and align PROGRAM */' not in s:
+              s = s.replace(marker, css + '\n' + marker, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Remove decorative motifs and align program layout"
+          git push
