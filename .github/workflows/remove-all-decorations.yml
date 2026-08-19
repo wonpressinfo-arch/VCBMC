@@ -1,0 +1,66 @@
+name: Remove all decorative motifs
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'trigger-remove-decorations.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove decorative motifs from index.html
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Remove all decorative light/spark elements.
+          s = re.sub(r'\s*<div\s+class="spark(?:\s+[^"]*)?"[^>]*>\s*</div>', '', s)
+
+          # Remove all crown/fleur decorative elements.
+          s = re.sub(r'\s*<div\s+class="fleur(?:\s+[^"]*)?"[^>]*>.*?</div>', '', s, flags=re.S)
+
+          # Remove all infinity ornaments.
+          s = re.sub(r'\s*<div\s+class="ornament(?:\s+[^"]*)?"[^>]*>.*?</div>', '', s, flags=re.S)
+
+          # Remove decorative star spans inside title divider rules, keeping the line itself.
+          s = re.sub(r'(<div\s+class="title-rule"[^>]*>)\s*<span[^>]*>\s*</span>\s*(</div>)', r'\1\2', s)
+
+          # Add a final safety override so no legacy decorative motif can render.
+          safety = '''
+/* Final decoration removal: no light/star/crown/infinity motifs */
+.spark,
+.fleur,
+.ornament,
+.title-rule span,
+.title-rule span::before,
+.title-rule span::after {
+  display: none !important;
+  content: none !important;
+}
+'''
+          if '/* Final decoration removal: no light/star/crown/infinity motifs */' not in s:
+              s = s.replace('</style>', safety + '\n</style>', 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit cleaned page
+        run: |
+          if git diff --quiet; then
+            echo "No changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Remove all decorative light star crown and infinity motifs"
+          git push
