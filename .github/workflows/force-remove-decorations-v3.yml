@@ -23,7 +23,6 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
-          # Physically remove decorative elements from HTML.
           patterns = [
               r'\s*<div[^>]*class="[^"]*\bspark\b[^"]*"[^>]*>\s*</div>',
               r'\s*<div[^>]*class="[^"]*\bfleur\b[^"]*"[^>]*>.*?</div>',
@@ -32,10 +31,8 @@ jobs:
           for pat in patterns:
               s = re.sub(pat, '', s, flags=re.S)
 
-          # Remove decorative star content inside title rules.
           s = re.sub(r'(<div[^>]*class="[^"]*\btitle-rule\b[^"]*"[^>]*>)\s*<span[^>]*>\s*</span>\s*(</div>)', r'\1\2', s, flags=re.S)
 
-          # Strong CSS fallback, also collapsing all leftover spacing/size.
           css = r'''
 /* FORCE REMOVE ALL DECORATIVE MOTIFS v3 */
 .spark,
@@ -77,3 +74,5 @@ jobs:
           git add index.html
           git commit -m "Force remove all decorative motifs"
           git push
+
+# rerun 2026-08-19T20:00+09:00
