@@ -4,17 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#071327" />
-  <meta name="description" content="인천 V 지회 창립대회 모바일 초대장" />
-  <meta property="og:title" content="인천 V 지회 창립대회" />
-  <meta property="og:description" content="2026.09.01(화) 17:30 · 송도 센트럴파크 호텔" />
-  <title>인천 V 지회 창립대회</title>
+  <meta name="description" content="한국CBMC 인천V지회 창립대회 모바일 초대장" />
+  <meta property="og:title" content="한국CBMC 인천V지회" />
+  <meta property="og:description" content="2026.09.01(화) 18:30 · 송도 센트럴파크 호텔" />
+  <title>한국CBMC 인천V지회 창립대회</title>
   <style>
     html,body{margin:0;width:100%;height:100%;background:#030914;overflow:hidden}
     #inviteFrame{display:block;width:100%;height:100dvh;border:0;background:#030914}
   </style>
 </head>
 <body>
-  <iframe id="inviteFrame" src="index-legacy.html" title="인천 V 지회 창립대회 모바일 초대장"></iframe>
+  <iframe id="inviteFrame" src="index-legacy.html" title="한국CBMC 인천V지회 창립대회 모바일 초대장"></iframe>
   <script>
   (function(){
     const frame=document.getElementById('inviteFrame');
@@ -39,6 +39,12 @@
       const d=frame.contentDocument;
       if(!d) return;
 
+      // 표지 제목 및 행사 시간 수정
+      const heroTitle=d.querySelector('#hero-title');
+      if(heroTitle) heroTitle.innerHTML='한국CBMC<br />인천V지회';
+      const heroMeta=d.querySelector('.hero-meta');
+      if(heroMeta) heroMeta.textContent='2026.09.01(화) 18:30';
+
       // 후원계좌 영역 완전 삭제
       d.querySelector('#support')?.remove();
 
@@ -58,7 +64,7 @@
       const list=d.querySelector('#contact .contact-list');
       if(list){
         list.innerHTML=
-          person('지회창립준비 본부장','최병목','010-5252-1383','01052521383')+
+          person('중앙회 지회창립준비 본부장','최병목','010-5252-1383','01052521383')+
           person('인천/북인천 창립위원장','최준호','010-3720-1803','01037201803')+
           person('인천연합회장','박봉용','010-3716-2721','01037162721')+
           person('파송지회 인천남부지회장','손남주','010-3799-4662','01037994662')+
