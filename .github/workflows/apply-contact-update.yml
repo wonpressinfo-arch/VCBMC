@@ -1,0 +1,105 @@
+name: Apply VCBMC contact update
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apply-contact-update.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Modify invitation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+
+          # Remove SUPPORT section completely.
+          a=s.find('    <section class="panel support"')
+          b=s.find('    <section class="panel contact"', a)
+          if a!=-1 and b!=-1:
+              s=s[:a]+s[b:]
+
+          # RSVP inquiry contact.
+          s=s.replace(
+            '<p>창립준비위원장 원동혁 대표 (010-6300-5961)</p>',
+            '<p>창립준비위원장 최성모 (010-8894-3220)<br />원동혁 (010-6300-5961)</p>'
+          )
+
+          # Navigation.
+          s=s.replace('<a href="#support">후원·문의</a>','<a href="#contact">문의</a>')
+
+          start=s.find('        <div class="contact-list">')
+          end=s.find('\n\n        <div class="flower-note">', start)
+          contacts='''        <div class="contact-list">
+          <div class="contact-person">
+            <p class="contact-role">지회창립준비 본부장</p>
+            <p class="contact-name">최병목</p>
+            <a class="contact-phone" href="tel:01052521383"><span>☎</span><span>010-5252-1383</span></a>
+          </div>
+          <div class="contact-person">
+            <p class="contact-role">인천/북인천 창립위원장</p>
+            <p class="contact-name">최준호</p>
+            <a class="contact-phone" href="tel:01037201803"><span>☎</span><span>010-3720-1803</span></a>
+          </div>
+          <div class="contact-person">
+            <p class="contact-role">인천연합회장</p>
+            <p class="contact-name">박봉용</p>
+            <a class="contact-phone" href="tel:01000000000"><span>☎</span><span>010-0000-0000</span></a>
+          </div>
+          <div class="contact-person">
+            <p class="contact-role">인천남부지회장</p>
+            <p class="contact-name">손남주</p>
+            <a class="contact-phone" href="tel:01037994662"><span>☎</span><span>010-3799-4662</span></a>
+          </div>
+          <div class="contact-person contact-person-group">
+            <p class="contact-role">창립준비위원장</p>
+            <div class="contact-member">
+              <p class="contact-name">최성모</p>
+              <a class="contact-phone" href="tel:01088943220"><span>☎</span><span>010-8894-3220</span></a>
+            </div>
+            <div class="contact-member">
+              <p class="contact-name">원동혁</p>
+              <a class="contact-phone" href="tel:01063005961"><span>☎</span><span>010-6300-5961</span></a>
+            </div>
+          </div>
+          <div class="contact-person contact-person-group">
+            <p class="contact-role">창립 지회장</p>
+            <div class="contact-member">
+              <p class="contact-name">최낙훈</p>
+              <a class="contact-phone" href="tel:01074470328"><span>☎</span><span>010-7447-0328</span></a>
+            </div>
+            <div class="contact-member">
+              <p class="contact-name">정지혜</p>
+              <a class="contact-phone" href="tel:01088991719"><span>☎</span><span>010-8899-1719</span></a>
+            </div>
+          </div>
+        </div>'''
+          if start!=-1 and end!=-1:
+              s=s[:start]+contacts+s[end:]
+
+          css='''
+/* Contact groups */
+.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}
+.contact-person-group .contact-name{margin-bottom:10px}
+'''
+          if '/* Contact groups */' not in s:
+              s=s.replace('</style>',css+'\n</style>',1)
+
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Remove sponsorship and refresh contact list"
+          git push
