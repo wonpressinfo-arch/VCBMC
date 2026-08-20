@@ -87,9 +87,9 @@
           '</div>';
       }
 
-      // 그룹형 연락처 간격
+      // 그룹형 연락처 간격 + 로고 크기 소폭 축소
       const style=d.createElement('style');
-      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}';
+      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}.cbmc-logo{transform:scale(.90);transform-origin:center center}';
       d.head.appendChild(style);
     });
   })();
