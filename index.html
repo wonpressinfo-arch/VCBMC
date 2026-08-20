@@ -46,11 +46,12 @@
       const heroMeta=d.querySelector('.hero-meta');
       if(heroMeta) heroMeta.textContent='2026.09.01(화) 18:30';
 
-      // 첨부된 한국CBMC PNG 로고로 표지 및 2페이지 로고 교체
+      // 첨부된 한국CBMC PNG 로고를 원본 그대로 표지 및 2페이지에 표시
       d.querySelectorAll('.cbmc-logo').forEach(function(img){
         img.src=officialCbmcLogo;
         img.alt='한국CBMC';
         img.removeAttribute('srcset');
+        img.style.clipPath='none';
       });
 
       // 후원계좌 영역 완전 삭제
@@ -86,9 +87,9 @@
           '</div>';
       }
 
-      // 그룹형 연락처 간격 + CBMC 글자는 유지하고 하단 가로줄 영역만 숨김
+      // 그룹형 연락처 간격
       const style=d.createElement('style');
-      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}.cbmc-logo{clip-path:polygon(0 0,100% 0,100% 68%,32% 68%,32% 75%,100% 75%,100% 100%,0 100%)}';
+      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}';
       d.head.appendChild(style);
     });
   })();
