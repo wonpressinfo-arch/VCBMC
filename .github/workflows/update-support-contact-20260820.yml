@@ -1,0 +1,151 @@
+name: Update support and contact information
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/update-support-contact-20260820.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update invitation content
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # 1) Remove the entire sponsorship/account section.
+          support_start = s.find('    <section class="panel support"')
+          contact_start = s.find('    <section class="panel contact"', support_start)
+          if support_start != -1 and contact_start != -1:
+              s = s[:support_start] + s[contact_start:]
+
+          # 2) Update RSVP contact line.
+          old_rsvp = '<p>창립준비위원장 원동혁 대표 (010-6300-5961)</p>'
+          new_rsvp = '<p>창립준비위원장 최성모 (010-8894-3220)<br />원동혁 (010-6300-5961)</p>'
+          s = s.replace(old_rsvp, new_rsvp)
+
+          # 3) Replace the full CONTACT list.
+          list_start_marker = '        <div class="contact-list">'
+          list_end_marker = '\n\n        <div class="flower-note">'
+          list_start = s.find(list_start_marker)
+          list_end = s.find(list_end_marker, list_start)
+
+          new_contact_list = '''        <div class="contact-list">
+          <div class="contact-person">
+            <p class="contact-role">지회창립준비 본부장</p>
+            <p class="contact-name">최병목</p>
+            <a class="contact-phone" href="tel:01052521383" aria-label="최병목 지회창립준비 본부장에게 전화하기">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+              <span>010-5252-1383</span>
+            </a>
+          </div>
+
+          <div class="contact-person">
+            <p class="contact-role">인천/북인천 창립위원장</p>
+            <p class="contact-name">최준호</p>
+            <a class="contact-phone" href="tel:01037201803" aria-label="최준호 인천 북인천 창립위원장에게 전화하기">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+              <span>010-3720-1803</span>
+            </a>
+          </div>
+
+          <div class="contact-person">
+            <p class="contact-role">인천연합회장</p>
+            <p class="contact-name">박봉용</p>
+            <a class="contact-phone" href="tel:01000000000" aria-label="박봉용 인천연합회장에게 전화하기">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+              <span>010-0000-0000</span>
+            </a>
+          </div>
+
+          <div class="contact-person">
+            <p class="contact-role">인천남부지회장</p>
+            <p class="contact-name">손남주</p>
+            <a class="contact-phone" href="tel:01037994662" aria-label="손남주 인천남부지회장에게 전화하기">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+              <span>010-3799-4662</span>
+            </a>
+          </div>
+
+          <div class="contact-person contact-person-group">
+            <p class="contact-role">창립준비위원장</p>
+            <div class="contact-member">
+              <p class="contact-name">최성모</p>
+              <a class="contact-phone" href="tel:01088943220" aria-label="최성모 창립준비위원장에게 전화하기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+                <span>010-8894-3220</span>
+              </a>
+            </div>
+            <div class="contact-member">
+              <p class="contact-name">원동혁</p>
+              <a class="contact-phone" href="tel:01063005961" aria-label="원동혁 창립준비위원장에게 전화하기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+                <span>010-6300-5961</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-person contact-person-group">
+            <p class="contact-role">창립 지회장</p>
+            <div class="contact-member">
+              <p class="contact-name">최낙훈</p>
+              <a class="contact-phone" href="tel:01074470328" aria-label="최낙훈 창립 지회장에게 전화하기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+                <span>010-7447-0328</span>
+              </a>
+            </div>
+            <div class="contact-member">
+              <p class="contact-name">정지혜</p>
+              <a class="contact-phone" href="tel:01088991719" aria-label="정지혜 창립 지회장에게 전화하기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>
+                <span>010-8899-1719</span>
+              </a>
+            </div>
+          </div>
+        </div>'''
+
+          if list_start != -1 and list_end != -1:
+              s = s[:list_start] + new_contact_list + s[list_end:]
+
+          # 4) Navigation: sponsorship is gone, link directly to contact.
+          s = s.replace('<a href="#support">후원·문의</a>', '<a href="#contact">문의</a>')
+
+          # 5) Add spacing for multi-person contact cards.
+          css = '''
+/* Contact groups */
+.contact-person-group .contact-member + .contact-member{
+  margin-top:22px;
+  padding-top:22px;
+  border-top:1px solid rgba(239,207,131,.22);
+}
+.contact-person-group .contact-name{
+  margin-bottom:10px;
+}
+'''
+          if '/* Contact groups */' not in s:
+              s = s.replace('</style>', css + '\n</style>', 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then
+            echo "No changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Remove support account and update launch contacts"
+          git push
