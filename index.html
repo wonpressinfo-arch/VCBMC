@@ -19,6 +19,7 @@
   (function(){
     const frame=document.getElementById('inviteFrame');
     const phoneIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.7 9 3l2.2 5.1-1.6 1.3a15.4 15.4 0 0 0 5 5l1.3-1.6L21 15l-.7 2.4c-.4 1.3-1.6 2.1-3 2-7.1-.7-12.9-6.5-13.6-13.6-.1-1.4.7-2.6 2-3z"/></svg>';
+    const officialCbmcLogo='https://cbmc.or.kr/img/page/logo_main.png';
 
     function person(role,name,phone,tel){
       return '<div class="contact-person">'+
@@ -44,6 +45,13 @@
       if(heroTitle) heroTitle.innerHTML='<span style="letter-spacing:0;word-spacing:0;white-space:nowrap">한국CBMC</span><br />인천V지회<br />창립대회';
       const heroMeta=d.querySelector('.hero-meta');
       if(heroMeta) heroMeta.textContent='2026.09.01(화) 18:30';
+
+      // 공식 한국CBMC 홈페이지 로고로 표지 및 2페이지 로고 교체
+      d.querySelectorAll('.cbmc-logo').forEach(function(img){
+        img.src=officialCbmcLogo;
+        img.alt='한국CBMC';
+        img.removeAttribute('srcset');
+      });
 
       // 후원계좌 영역 완전 삭제
       d.querySelector('#support')?.remove();
