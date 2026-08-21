@@ -40,13 +40,11 @@
       const d=frame.contentDocument;
       if(!d) return;
 
-      // 표지 제목 및 행사 시간 수정
       const heroTitle=d.querySelector('#hero-title');
       if(heroTitle) heroTitle.innerHTML='<span style="letter-spacing:0;word-spacing:0;white-space:nowrap">한국CBMC</span><br />인천V지회<br />창립대회';
       const heroMeta=d.querySelector('.hero-meta');
       if(heroMeta) heroMeta.textContent='2026.09.01(화) 18:30';
 
-      // 첨부된 한국CBMC PNG 로고를 원본 그대로 표지 및 2페이지에 표시
       d.querySelectorAll('.cbmc-logo').forEach(function(img){
         img.src=officialCbmcLogo;
         img.alt='한국CBMC';
@@ -54,7 +52,6 @@
         img.style.clipPath='none';
       });
 
-      // 프로그램 순서 수정
       const programRows=d.querySelectorAll('.program-row');
       if(programRows.length>=3){
         programRows[0].innerHTML='<span>1부</span><span>―</span><strong>식사</strong>';
@@ -62,14 +59,11 @@
         programRows[2].innerHTML='<span>3부</span><span>―</span><strong>특별순서</strong>';
       }
 
-      // 후원계좌 영역 완전 삭제
       d.querySelector('#support')?.remove();
 
-      // 하단 메뉴의 후원·문의 → 문의
       const supportNav=[...d.querySelectorAll('.sticky-nav a')].find(a=>a.getAttribute('href')==='#support');
       if(supportNav){supportNav.setAttribute('href','#contact');supportNav.textContent='문의';}
 
-      // RSVP 행사문의 최신화
       const blocks=[...d.querySelectorAll('#rsvp .info-block')];
       const inquiry=blocks.find(b=>b.querySelector('h3')?.textContent.trim()==='행사문의');
       if(inquiry){
@@ -77,7 +71,6 @@
         if(p) p.innerHTML='총무 김윤태 대표<br>010-8012-1738';
       }
 
-      // 연락처 전체 교체
       const list=d.querySelector('#contact .contact-list');
       if(list){
         list.innerHTML=
@@ -95,9 +88,8 @@
           '</div>';
       }
 
-      // 그룹형 연락처 간격 + 로고 크기 소폭 축소 + 2부 프로그램 한 줄 정렬
       const style=d.createElement('style');
-      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}.cbmc-logo{transform:scale(.90);transform-origin:center center}.program-row:nth-child(2){grid-template-columns:.7fr .22fr 2.25fr!important}.program-row:nth-child(2) strong{white-space:nowrap;font-size:.76em;letter-spacing:-0.03em}';
+      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}.cbmc-logo{transform:scale(.90);transform-origin:center center}.program-list{width:min(620px,100%)!important}.program-row{grid-template-columns:.72fr .22fr 2.35fr!important;font-size:clamp(22px,5.8vw,42px)!important}.program-row strong,.program-row>span{font-size:1em!important;line-height:1.2!important}.program-row strong{white-space:nowrap!important;letter-spacing:-.02em}';
       d.head.appendChild(style);
     });
   })();
