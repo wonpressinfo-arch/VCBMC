@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#071327" />
   <meta name="description" content="한국CBMC 인천V지회 창립대회 모바일 초대장" />
   <meta property="og:title" content="한국CBMC 인천V지회 창립대회" />
-  <meta property="og:description" content="2026.09.01(화) 18:30 · 송도 센트럴파크 호텔" />
+  <meta property="og:description" content="2026.09.01(화) 18:30 · 송도 센트럴파크 호텔 2층 루비홀" />
   <title>한국CBMC 인천V지회 창립대회</title>
   <style>
     html,body{margin:0;width:100%;height:100%;background:#030914;overflow:hidden}
@@ -44,6 +44,22 @@
       if(heroTitle) heroTitle.innerHTML='<span style="letter-spacing:0;word-spacing:0;white-space:nowrap">한국CBMC</span><br />인천V지회<br />창립대회';
       const heroMeta=d.querySelector('.hero-meta');
       if(heroMeta) heroMeta.textContent='2026.09.01(화) 18:30';
+      const heroPlace=d.querySelector('.hero-place');
+      if(heroPlace) heroPlace.innerHTML='송도 센트럴파크 호텔<br><span class="hero-room">2층 루비홀</span>';
+
+      const locationTitle=d.querySelector('#location-title');
+      if(locationTitle) locationTitle.textContent='송도 센트럴파크 호텔';
+      const locationCopy=d.querySelector('.location-copy');
+      if(locationCopy){
+        let room=locationCopy.querySelector('.location-room');
+        if(!room){
+          room=d.createElement('p');
+          room.className='location-room';
+          const address=locationCopy.querySelector('p');
+          locationCopy.insertBefore(room,address||null);
+        }
+        room.textContent='2층 루비홀';
+      }
 
       d.querySelectorAll('.cbmc-logo').forEach(function(img){
         img.src=officialCbmcLogo;
@@ -89,7 +105,7 @@
       }
 
       const style=d.createElement('style');
-      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}.cbmc-logo{transform:scale(.90);transform-origin:center center}.program-list{width:min(620px,100%)!important}.program-row{grid-template-columns:.72fr .22fr 2.35fr!important;font-size:clamp(22px,5.8vw,42px)!important}.program-row strong,.program-row>span{font-size:1em!important;line-height:1.2!important}.program-row strong{white-space:nowrap!important;letter-spacing:-.02em}';
+      style.textContent='.contact-person-group .contact-member + .contact-member{margin-top:22px;padding-top:22px;border-top:1px solid rgba(239,207,131,.22)}.contact-person-group .contact-name{margin-bottom:10px}.cbmc-logo{transform:scale(.90);transform-origin:center center}.program-list{width:min(620px,100%)!important}.program-row{grid-template-columns:.72fr .22fr 2.35fr!important;font-size:clamp(22px,5.8vw,42px)!important}.program-row strong,.program-row>span{font-size:1em!important;line-height:1.2!important}.program-row strong{white-space:nowrap!important;letter-spacing:-.02em}.hero-room{display:inline-block;margin-top:7px;font-size:.82em;font-weight:700;letter-spacing:.08em}.location-room{margin:8px 0 4px!important;color:#efcf83!important;font-size:clamp(20px,5vw,28px)!important;font-weight:800!important;letter-spacing:.06em}';
       d.head.appendChild(style);
     });
   })();
